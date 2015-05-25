@@ -1,0 +1,15 @@
+<h1>Settings</h1>
+
+<form class="form-signin" role="form" ng-submit="save()" id="registerForm">
+    <label for="hours">Preferred working hours per day</label>
+    <div class="input-group">
+        <input id="hours" class="form-control" placeholder="Hours" autofocus value="" ng-model="user.hours">
+        <span class="input-group-btn">
+            <input type="submit" class="btn btn-success btn-lg" value="Set">
+            <input type="submit" class="btn btn-danger btn-lg" value="Unset" ng-click="user.hours = ''">
+        </span>
+    </div>
+</form>
+
+
+

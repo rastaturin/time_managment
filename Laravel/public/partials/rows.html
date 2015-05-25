@@ -1,0 +1,93 @@
+<h1>Work</h1>
+
+<button class="btn btn-info" ng-click="addNew()">Add new</button>
+
+<form class="form-signin" role="form" ng-submit="save()" id="workForm" style="display: none">
+    <label for="note">Note</label>
+    <input id="note" class="form-control" placeholder="Note" required autofocus value="" ng-model="timerow.note">
+    <label for="date">Date</label>
+    <div class="dropdown form-group">
+        <a class="dropdown-toggle my-toggle-selectData" id="date" role="button" data-toggle="dropdown" data-target="#" href="">
+            <div class='input-group date'>
+                <input type='text' placeholder="To" class="form-control" value="{{showDate(timerow.date)}}" readonly="true"/>
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+        </a>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+            <datetimepicker data-ng-model="timerow.date" data-datetimepicker-config="{ dropdownSelector: '.my-toggle-selectData', minView: 'day' }"></datetimepicker>
+        </ul>
+    </div>
+    <label for="duration">Duration</label>
+    <input id="duration" class="form-control" placeholder="Duration" required autofocus value="" ng-model="timerow.duration">
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Save!</button>
+</form>
+
+<form class="form-inline" style="width: auto">
+    <h3>Filter</h3>
+    <div class="form-group">
+        <div class="dropdown form-group">
+            <a class="dropdown-toggle my-toggle-select1" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="">
+                <div class='input-group date'>
+                    <input type='text' placeholder="From" class="form-control" value="{{showDate(dateFrom)}}" readonly="true"/>
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+                </div>
+            </a>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                <datetimepicker data-ng-model="dateFrom" data-datetimepicker-config="{ dropdownSelector: '.my-toggle-select1', minView: 'day' }"></datetimepicker>
+            </ul>
+        </div>
+
+        <div class="dropdown form-group">
+            <a class="dropdown-toggle my-toggle-select" id="dLabe2" role="button" data-toggle="dropdown" data-target="#" href="">
+                <div class='input-group date'>
+                    <input type='text' placeholder="To" class="form-control" value="{{showDate(dateTo)}}" readonly="true"/>
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+                </div>
+            </a>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                <datetimepicker data-ng-model="dateTo" data-datetimepicker-config="{ dropdownSelector: '.my-toggle-select', minView: 'day' }"></datetimepicker>
+            </ul>
+        </div>
+        <button class="btn btn-default" type="submit" style="margin-right: 6px" ng-if="dateFrom || dateTo" ng-click="reset()">Reset</button>
+        <button class="btn btn-primary" type="submit" style="margin-right: 6px" ng-click="export()"><i class="glyphicon glyphicon-list-alt"></i> Export</button>
+    </div>
+</form>
+
+<a ng-repeat="download in downloads"
+   href="{{download.href}}" target="_blank"
+   download="{{download.filename}}"
+   class="btn btn-success" style="margin-top: 10px; margin-right: 10px"><i class="glyphicon glyphicon-save-file"></i> {{download.date}}</a>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Duration</th>
+            <th>Note</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tr ng-repeat="curTimerow in timerows" ng-class="{'success': curTimerow.isGreen, 'danger': curTimerow.isRed}"
+        ng-if="(curTimerow.date >= format(dateFrom) || !dateFrom) && (curTimerow.date <= format(dateTo) || !dateTo)">
+        <td>{{showDate(curTimerow.date)}}</td>
+        <td>{{curTimerow.duration}} h</td>
+        <td>{{curTimerow.note}}</td>
+        <td>
+            <button class="btn btn-warning" ng-click="set(curTimerow)">Edit</button>
+        </td>
+        <td>
+            <button class="btn btn-danger" ng-click="delete(curTimerow)">Delete</button>
+        </td>
+    </tr>
+</table>
+
+<div class="well" ng-if="!timerows.length">Start by clicking "Add new" button.</div>
+<div class="well" ng-if="!hours">In order to show your work in red/green, please set your <a href="#/settings">working hours</a>.</div>

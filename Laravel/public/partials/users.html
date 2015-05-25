@@ -1,0 +1,51 @@
+<h1>Users</h1>
+
+<button class="btn btn-info" ng-click="addNew()">Add new</button>
+
+<form class="form-signin" role="form" ng-submit="save()" id="userForm" style="display: none">
+    <label for="name">Name</label>
+    <input id="name" class="form-control" placeholder="Name" required autofocus value="" ng-model="user.name" autocomplete="off">
+    <label for="email">Email</label>
+    <input id="email" class="form-control" placeholder="Email" required value="" ng-model="user.email" autocomplete="off">
+    <label for="password">Password</label>
+    <input id="password" class="form-control" type="password" placeholder="Password" value="" ng-model="user.password" autocomplete="off">
+    <label for="hours">Preferred working hours per day</label>
+    <input id="hours" class="form-control" placeholder="Working hours" value="" ng-model="user.hours" autocomplete="off">
+    <label for="role">Role</label>
+    <select id="role" class="form-control" ng-model="user.role">
+        <option value="0">User</option>
+        <option value="1">Manager</option>
+        <option value="2">Admin</option>
+    </select>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Save!</button>
+</form>
+
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Hours</th>
+        <th>Role</th>
+        <th>Work</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    </thead>
+    <tr ng-repeat="user in users">
+        <td>{{user.name}}</td>
+        <td>{{user.email}}</td>
+        <td>{{user.hours}}</td>
+        <td>{{getRole(user.role)}}</td>
+        <td>
+        <a href="#/rows/user/{{user.id}}">Work</a>
+        </td>
+        <td>
+            <button class="btn btn-warning" ng-click="set(user)">Edit</button>
+        </td>
+        <td>
+            <button class="btn btn-danger" ng-click="delete(user)">Delete</button>
+        </td>
+    </tr>
+</table>
