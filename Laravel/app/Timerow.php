@@ -11,7 +11,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property int date
  * @property User user
  */
-class Timerow extends Model {
+class Timerow extends Model
+{
 
     /**
      * The database table used by the model.
@@ -51,7 +52,6 @@ class Timerow extends Model {
         }
         return $query;
     }
-
 
 
 }

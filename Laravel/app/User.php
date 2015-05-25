@@ -16,27 +16,28 @@ use Illuminate\Support\Facades\Hash;
  * @property int email
  * @property int hours
  */
-class User extends Model implements AuthenticatableContract, CanResetPasswordContract {
+class User extends Model implements AuthenticatableContract, CanResetPasswordContract
+{
 
-	use Authenticatable, CanResetPassword;
+    use Authenticatable, CanResetPassword;
 
     const USER = 0;
     const MANAGER = 1;
     const ADMIN = 2;
 
-	/**
-	 * The database table used by the model.
-	 *
-	 * @var string
-	 */
-	protected $table = 'users';
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = 'users';
 
-	/**
-	 * The attributes that are mass assignable.
-	 *
-	 * @var array
-	 */
-	protected $fillable = ['name', 'email', 'password', 'role', 'hours'];
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['name', 'email', 'password', 'role', 'hours'];
 
     /**
      * @var self
@@ -48,12 +49,12 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public static $edited;
 
-	/**
-	 * The attributes excluded from the model's JSON form.
-	 *
-	 * @var array
-	 */
-	protected $hidden = ['password', 'remember_token', 'created_at', 'updated_at', 'api_token'];
+    /**
+     * The attributes excluded from the model's JSON form.
+     *
+     * @var array
+     */
+    protected $hidden = ['password', 'remember_token', 'created_at', 'updated_at', 'api_token'];
     protected $appends = ['duration'];
 
     protected $dates = [];

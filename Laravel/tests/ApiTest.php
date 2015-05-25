@@ -2,25 +2,26 @@
 
 use App\User;
 
-class ApiTest extends TestCase {
+class ApiTest extends TestCase
+{
 
     /**
      * @dataProvider userProvider
      */
-	public function testRegistration($name, $email, $password)
-	{
+    public function testRegistration($name, $email, $password)
+    {
         if ($user = User::byEmail($email)) {
             $user->timerows()->delete();
             $user->delete();
         }
 
         // API Registration
-		$response = $this->call('POST', '/api/user', ['email' => $email, 'name' => $name, 'password' => $password]);
-		$this->assertEquals(201, $response->getStatusCode());
+        $response = $this->call('POST', '/api/user', ['email' => $email, 'name' => $name, 'password' => $password]);
+        $this->assertEquals(201, $response->getStatusCode());
         $user = json_decode($response->getContent());
         $this->assertEquals($user->name, $name);
         $this->assertEquals($user->email, $email);
-	}
+    }
 
     /**
      * @dataProvider userProvider

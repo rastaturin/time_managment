@@ -8,31 +8,31 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller as BaseController;
 use App\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Input;
 
-class UserController extends Controller {
+class UserController extends Controller
+{
 
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
-	public function index()
-	{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function index()
+    {
         if (User::$logged->isManager()) {
             return $this->response(User::all());
         } else {
             throw new AccessDenied('Only manager can access other users');
         }
-	}
+    }
 
     /**
      * Store a newly created resource in storage.
      * @return Response
      * @throws BadRequest
      */
-	public function store()
-	{
+    public function store()
+    {
         $data = MyInput::all();
         if (empty($data['email'])) {
             throw new BadRequest('Empty email');
@@ -59,11 +59,11 @@ class UserController extends Controller {
      * @return Response
      * @throws AccessDenied
      */
-	public function show($userId)
-	{
+    public function show($userId)
+    {
         $user = $this->getAvailableUser($userId);
         return response()->json($user);
-	}
+    }
 
     /**
      * Update the specified resource in storage.
@@ -73,17 +73,16 @@ class UserController extends Controller {
      * @throws AccessDenied
      * @throws BadRequest
      */
-	public function update($id)
-	{
+    public function update($id)
+    {
         $user = $this->getAvailableUser($id);
         $data = MyInput::all();
 
         if (isset($data['role'])) {
-            // Only manager (and not herself) can change roles.
+            // Only manager (and! not herself) can change roles.
             if (!User::$logged->isManager() || $user->id == User::$logged->id) {
                 unset($data['role']);
-            }
-            // Only admin can set to admins
+            } // Only admin can set to admins
             elseif (!User::$logged->isAdmin() && $data['role'] == User::ADMIN) {
                 throw new AccessDenied('Only admin can set other users as admins');
             }
@@ -91,22 +90,22 @@ class UserController extends Controller {
 
         $user->update($data);
         return $this->response($user);
-	}
+    }
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $userId
-	 * @return Response
-	 */
-	public function destroy($userId)
-	{
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int $userId
+     * @return Response
+     */
+    public function destroy($userId)
+    {
         $user = $this->getAvailableUser($userId);
         if (User::$logged->id == $user->id) {
             throw new AccessDenied("You can't delete yourself");
         }
         $user->delete();
-	}
+    }
 
     public function login()
     {

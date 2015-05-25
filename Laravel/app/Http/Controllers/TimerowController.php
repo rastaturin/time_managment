@@ -9,10 +9,9 @@ use App\Timerow;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Input;
 
-class TimerowController extends Controller {
+class TimerowController extends Controller
+{
 
     /**
      * Display a listing of the resource.
@@ -20,12 +19,12 @@ class TimerowController extends Controller {
      * @param $userId
      * @return Response
      */
-	public function index($userId)
-	{
+    public function index($userId)
+    {
         $user = $this->getAvailableUser($userId);
         $rows = Timerow::whereUser_id($user->id)->orderBy('date')->get();
         return $this->response($rows);
-	}
+    }
 
     /**
      * Export
@@ -34,8 +33,8 @@ class TimerowController extends Controller {
      * @param null $dateTill
      * @return Response
      */
-	public function export($userId, $dateFrom = null, $dateTill = null)
-	{
+    public function export($userId, $dateFrom = null, $dateTill = null)
+    {
         $user = $this->getAvailableUser($userId);
 
         $rows = Timerow::whereUser_id($user->id)->dates($dateFrom, $dateTill)->orderBy('date')->get();
@@ -48,20 +47,20 @@ class TimerowController extends Controller {
             $dates[$row->date]['notes'][] = $row->note;
         }
         return view('export', ['dates' => $dates]);
-	}
+    }
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store($userId)
-	{
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @return Response
+     */
+    public function store($userId)
+    {
         $user = $this->getAvailableUser($userId);
         $timerow = new Timerow(MyInput::all());
         $user->timerows()->save($timerow);
         return $this->response($timerow);
-	}
+    }
 
     /**
      * Update the specified resource in storage.
@@ -72,8 +71,8 @@ class TimerowController extends Controller {
      * @throws AccessDenied
      * @throws BadRequest
      */
-	public function update($userId, $id)
-	{
+    public function update($userId, $id)
+    {
         $user = $this->getAvailableUser($userId);
         if (!($timerow = Timerow::find($id))) {
             throw new BadRequest(sprintf('%s timerow not found', $id));
@@ -83,7 +82,7 @@ class TimerowController extends Controller {
         }
         $timerow->update(MyInput::all());
         $this->response($timerow);
-	}
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -93,8 +92,8 @@ class TimerowController extends Controller {
      * @throws AccessDenied
      * @internal param int $id
      */
-	public function destroy($userId, $id)
-	{
+    public function destroy($userId, $id)
+    {
         $user = $this->getAvailableUser($userId);
         if (!($timerow = Timerow::find($id))) {
             throw new BadRequest(sprintf('%s timerow not found', $id));
@@ -104,7 +103,7 @@ class TimerowController extends Controller {
         }
         $timerow->delete();
         return $this->response(null);
-	}
+    }
 
     /**
      * @param $userId
