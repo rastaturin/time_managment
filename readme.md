@@ -50,3 +50,11 @@ See API details in `Laravel/tests/ApiTest.php`
 ### Tests
 
 `Laravel/tests/ApiTest.php`
+
+## Installation
+
+1. Download
+2. Setup server endpoint to `Laravel/public`
+3. Copy `Laravel/.env.example` to `Laravel/.env.` and set database credentials
+4. Run `php Laravel/artisan migrate`
+

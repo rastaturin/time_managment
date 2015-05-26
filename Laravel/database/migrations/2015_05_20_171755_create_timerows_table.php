@@ -20,7 +20,7 @@ class CreateTimerowsTable extends Migration {
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->date('date');
             $table->string('note', 200);
-            $table->integer('duration');
+            $table->float('duration');
 			$table->timestamps();
 		});
 	}
