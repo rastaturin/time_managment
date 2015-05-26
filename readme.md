@@ -4,7 +4,7 @@ This is a test project "Time Management System"
 
 ## Demo
 
-Try it at demo server: [time.mobi22.com](http://time.mobi22.com)
+Try demo: [time.mobi22.com/view.html](http://time.mobi22.com/view.html)
 
     Admin
     Login: admin@system 
@@ -47,6 +47,6 @@ See API details in `Laravel/tests/ApiTest.php`
 1. Get a token using `POST: /api/user/login`
 2. At every API request put the token to the header `X-Auth-Token` 
 
-### Test
+### Tests
 
 `Laravel/tests/ApiTest.php`

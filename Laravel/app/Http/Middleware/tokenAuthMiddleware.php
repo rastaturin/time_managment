@@ -18,6 +18,7 @@ class tokenAuthMiddleware implements Middleware
 	{
         if (
             $request->is('api/user/login')
+            || $request->is('/')
             || $request->is('api/user') && $request->getMethod() == "POST"
         ) {
             return $next($request);

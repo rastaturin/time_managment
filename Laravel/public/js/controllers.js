@@ -82,7 +82,9 @@ mainModule.controller('RowsController', function ($scope, $location, User, TimeR
     };
 
     $scope.delete = function (curTimerow) {
-        curTimerow.$delete({userId: $scope.userId, rowId: curTimerow.id});
+        curTimerow.$delete({userId: $scope.userId, rowId: curTimerow.id}, function(data){
+            $scope.timerows = TimeRow.index($scope.userId);
+        });
         var index = $scope.timerows.indexOf(curTimerow);
         $scope.timerows.splice(index, 1);
     };
